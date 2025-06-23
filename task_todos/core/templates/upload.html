@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Upload a Photo</title>
+</head>
+<body>
+  <h1>Upload a Photo</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label>
+      Title:
+      <input type="text" name="title">
+    </label>
+    <br><br>
+    <label>
+      Select image:
+      <input type="file" name="image" accept="image/*">
+    </label>
+    <br><br>
+    <button type="submit">Upload</button>
+  </form>
+
+  <h2>All Uploaded Photos</h2>
+  <ul>
+    {% for photo in photos %}
+      <li>
+        {{ photo.title }}<br>
+        <img src="{{ photo.image.url }}" width="200">
+      </li>
+    {% empty %}
+      <li>No photos yet.</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
