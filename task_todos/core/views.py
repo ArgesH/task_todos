@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from core.models import Photo
+from core.forms import PhotoForm
 
 # Create your views here.
 
@@ -15,3 +16,17 @@ class UploadImage(View):
         if img:
             Photo.objects.create(title=title, image=img)
             return redirect('upload_image')
+
+
+class PhotoView(View):
+    def get(self, request):
+        form = PhotoForm()
+        return render(request, 'upload_form.html', {'form': form})
+
+    def post(self, request):
+        form = PhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('upload_image')
+        return render(request, 'upload_form.html', {'form': form})
+
